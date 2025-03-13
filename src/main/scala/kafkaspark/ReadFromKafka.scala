@@ -31,7 +31,7 @@ object ReadFromKafka {
     // Add the current timestamp column when reading the DataFrame
        val df1 = df.withColumn("timedetails", current_timestamp())
     // Write the DataFrame as CSV files to HDFS
-        df1.writeStream.format("csv").option("checkpointLocation", "/tmp/jenkins/kafka/tfl_underground").option("path", "/tmp/jenkins/kafka/tfl_underground/data").start().awaitTermination()
+        df1.writeStream.format("csv").option("checkpointLocation", "/tmp/jenkins/kafka/tfl_underground/checkpoint").option("path", "/tmp/jenkins/kafka/tfl_underground/data").start().awaitTermination()
   }
 
 }
