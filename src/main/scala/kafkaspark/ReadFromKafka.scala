@@ -29,9 +29,9 @@ object ReadFromKafka {
     // Read the JSON messages from Kafka as a DataFrame
     val df = spark.readStream.format("kafka").option("kafka.bootstrap.servers", " ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092").option("subscribe", topic).option("startingOffsets", "latest").load().select(from_json(col("value").cast("string"), schema).as("data")).selectExpr("data.*")
     // Add the current timestamp column when reading the DataFrame
-        df = df.withColumn("timedetails", current_timestamp())
+       val df1 = df.withColumn("timedetails", current_timestamp())
     // Write the DataFrame as CSV files to HDFS
-        df.writeStream.format("csv").option("checkpointLocation", "/tmp/jenkins/kafka/tfl_underground").option("path", "/tmp/jenkins/kafka/tfl_underground/data").start().awaitTermination()
+        df1.writeStream.format("csv").option("checkpointLocation", "/tmp/jenkins/kafka/tfl_underground").option("path", "/tmp/jenkins/kafka/tfl_underground/data").start().awaitTermination()
   }
 
 }
